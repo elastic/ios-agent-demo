@@ -4,10 +4,9 @@ This repository demonstrates the
 [Elastic Distribution of OpenTelemetry iOS](https://github.com/elastic/apm-agent-ios) in an
 end-to-end weather application.
 
-The app mirrors the EDOT Android demo: choose a city, request its current weather through a local
-instrumented backend, and inspect the complete distributed trace in Elastic. It also includes
-focused examples of manual spans, logs, metrics, a slow trace, an intentional backend error, and an
-intentional iOS crash.
+Choose a city, request its current weather through a local instrumented backend, and inspect the
+complete distributed trace in Elastic. The demo also includes focused examples of manual spans,
+logs, metrics, a slow trace, an intentional backend error, and an intentional iOS crash.
 
 ## What you can observe
 
