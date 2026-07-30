@@ -1,0 +1,83 @@
+#!/bin/sh
+set -e
+
+BASEDIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+CONTAINER_NAME="ios-weather-backend"
+IMAGE_NAME="ios-weather-backend"
+NETWORK_NAME="elastic-start-local_default"
+TIMEOUT=60
+
+usage() {
+  echo "Usage: $0 {start|stop|uninstall|logs}"
+  echo ""
+  echo "  start      Build and run the backend service"
+  echo "  stop       Stop the running backend container"
+  echo "  uninstall  Stop the container and remove its image"
+  echo "  logs       Follow backend container logs"
+  exit 1
+}
+
+cmd_start() {
+  "$BASEDIR/gradlew" -p "$BASEDIR" :backend:bootJar
+
+  if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
+    echo "Error: Docker network '$NETWORK_NAME' was not found."
+    echo "Run 'curl -fsSL https://elastic.co/start-local | sh -s -- --edot' first."
+    exit 1
+  fi
+
+  docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+  docker build -t "$IMAGE_NAME" "$BASEDIR/backend"
+  docker run -d --name "$CONTAINER_NAME" \
+    --network "$NETWORK_NAME" \
+    -p 8080:8080 \
+    -e OTEL_SERVICE_NAME=weather-demo-backend \
+    -e OTEL_EXPORTER_OTLP_ENDPOINT=http://edot-collector:4318 \
+    "$IMAGE_NAME"
+
+  echo "Waiting for $CONTAINER_NAME to be ready..."
+  start_time=$(date +%s)
+  until curl --fail --silent http://localhost:8080/v1/health >/dev/null 2>&1; do
+    elapsed=$(( $(date +%s) - start_time ))
+    if [ "$elapsed" -ge "$TIMEOUT" ]; then
+      echo "Error: $CONTAINER_NAME did not become ready within ${TIMEOUT}s"
+      docker logs "$CONTAINER_NAME"
+      exit 1
+    fi
+    sleep 1
+  done
+
+  echo "$CONTAINER_NAME is running on http://localhost:8080"
+}
+
+cmd_stop() {
+  if docker ps -q --filter "name=^${CONTAINER_NAME}$" | grep -q .; then
+    docker stop "$CONTAINER_NAME"
+    echo "$CONTAINER_NAME stopped."
+  else
+    echo "$CONTAINER_NAME is not running."
+  fi
+}
+
+cmd_uninstall() {
+  cmd_stop
+  if docker ps -a -q --filter "name=^${CONTAINER_NAME}$" | grep -q .; then
+    docker rm "$CONTAINER_NAME"
+  fi
+  if docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
+    docker rmi "$IMAGE_NAME"
+  fi
+  echo "$CONTAINER_NAME was uninstalled."
+}
+
+cmd_logs() {
+  docker logs -f "$CONTAINER_NAME"
+}
+
+case "${1:-}" in
+  start) cmd_start ;;
+  stop) cmd_stop ;;
+  uninstall) cmd_uninstall ;;
+  logs) cmd_logs ;;
+  *) usage ;;
+esac

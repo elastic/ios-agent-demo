@@ -1,0 +1,9 @@
+Elastic Distribution of OpenTelemetry iOS Demo
+Copyright 2026 Elasticsearch B.V.
+
+This product includes software developed by Elasticsearch B.V.
+
+The backend scenario and management script are adapted from the Apache-2.0-licensed
+elastic/android-agent-demo project.
+
+The Gradle wrapper is distributed under the Apache License, Version 2.0.

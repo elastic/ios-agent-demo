@@ -1,0 +1,21 @@
+# Xcode
+DerivedData/
+.derived-data/
+*.xcuserstate
+xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Gradle
+.gradle/
+**/build/
+
+# IDE and operating system
+.idea/
+*.iml
+.DS_Store
+
+# Local Elastic Stack created by start-local
+elastic-start-local/
