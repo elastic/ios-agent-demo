@@ -32,6 +32,27 @@
 		200000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20000000000000000000000A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20000000000000000000000B /* WeatherDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20000000000000000000000C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		20000000000000000000000D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		20000000000000000000000E /* NOTICE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.txt; sourceTree = "<group>"; };
+		20000000000000000000000F /* backend-manager */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "backend-manager"; sourceTree = "<group>"; };
+		200000000000000000000010 /* checks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = checks.sh; sourceTree = "<group>"; };
+		200000000000000000000011 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = build.gradle.kts; sourceTree = "<group>"; };
+		200000000000000000000012 /* settings.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = settings.gradle.kts; sourceTree = "<group>"; };
+		200000000000000000000013 /* gradle.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradle.properties; sourceTree = "<group>"; };
+		200000000000000000000014 /* gradlew */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = gradlew; sourceTree = "<group>"; };
+		200000000000000000000015 /* gradlew.bat */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradlew.bat; sourceTree = "<group>"; };
+		200000000000000000000016 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		200000000000000000000017 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = build.gradle.kts; sourceTree = "<group>"; };
+		200000000000000000000018 /* Dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
+		200000000000000000000019 /* BackendApplication.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = BackendApplication.java; sourceTree = "<group>"; };
+		20000000000000000000001A /* WeatherController.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = WeatherController.java; sourceTree = "<group>"; };
+		20000000000000000000001B /* CurrentWeatherResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = CurrentWeatherResponse.java; sourceTree = "<group>"; };
+		20000000000000000000001C /* ForecastResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = ForecastResponse.java; sourceTree = "<group>"; };
+		20000000000000000000001D /* Location.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = Location.java; sourceTree = "<group>"; };
+		20000000000000000000001E /* elasticapm.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = elasticapm.properties; sourceTree = "<group>"; };
+		20000000000000000000001F /* gradle-wrapper.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "gradle-wrapper.jar"; sourceTree = "<group>"; };
+		200000000000000000000020 /* gradle-wrapper.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "gradle-wrapper.properties"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +71,10 @@
 		400000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				400000000000000000000009 /* Documentation */,
 				400000000000000000000002 /* WeatherDemo */,
+				40000000000000000000000A /* Backend */,
+				400000000000000000000010 /* Development Support */,
 				400000000000000000000008 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -118,6 +142,106 @@
 				20000000000000000000000B /* WeatherDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		400000000000000000000009 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000C /* README.md */,
+				20000000000000000000000D /* LICENSE */,
+				20000000000000000000000E /* NOTICE.txt */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000A /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000016 /* README.md */,
+				200000000000000000000017 /* build.gradle.kts */,
+				200000000000000000000018 /* Dockerfile */,
+				40000000000000000000000B /* src */,
+			);
+			name = Backend;
+			path = backend;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000000C /* main */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000C /* main */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000000D /* co.elastic.apm.ios.demo.backend */,
+				40000000000000000000000F /* resources */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000D /* co.elastic.apm.ios.demo.backend */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000019 /* BackendApplication.java */,
+				20000000000000000000001A /* WeatherController.java */,
+				40000000000000000000000E /* data */,
+			);
+			name = co.elastic.apm.ios.demo.backend;
+			path = java/co/elastic/apm/ios/demo/backend;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000E /* data */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000001B /* CurrentWeatherResponse.java */,
+				20000000000000000000001C /* ForecastResponse.java */,
+				20000000000000000000001D /* Location.java */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		40000000000000000000000F /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000001E /* elasticapm.properties */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		400000000000000000000010 /* Development Support */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000000F /* backend-manager */,
+				200000000000000000000010 /* checks.sh */,
+				200000000000000000000011 /* build.gradle.kts */,
+				200000000000000000000012 /* settings.gradle.kts */,
+				200000000000000000000013 /* gradle.properties */,
+				200000000000000000000014 /* gradlew */,
+				200000000000000000000015 /* gradlew.bat */,
+				400000000000000000000011 /* gradle */,
+			);
+			name = "Development Support";
+			sourceTree = "<group>";
+		};
+		400000000000000000000011 /* gradle */ = {
+			isa = PBXGroup;
+			children = (
+				400000000000000000000012 /* wrapper */,
+			);
+			path = gradle;
+			sourceTree = "<group>";
+		};
+		400000000000000000000012 /* wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000001F /* gradle-wrapper.jar */,
+				200000000000000000000020 /* gradle-wrapper.properties */,
+			);
+			path = wrapper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
