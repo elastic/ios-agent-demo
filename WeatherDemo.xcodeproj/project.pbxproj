@@ -55,6 +55,10 @@
 		200000000000000000000020 /* gradle-wrapper.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "gradle-wrapper.properties"; sourceTree = "<group>"; };
 		200000000000000000000021 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		200000000000000000000022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		200000000000000000000023 /* ci.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = ci.yml; sourceTree = "<group>"; };
+		200000000000000000000024 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		200000000000000000000025 /* e2e_test.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = e2e_test.sh; sourceTree = "<group>"; };
+		200000000000000000000026 /* otel.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = otel.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 		400000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				400000000000000000000019 /* .github */,
 				200000000000000000000021 /* .gitignore */,
 				20000000000000000000000D /* LICENSE */,
 				20000000000000000000000E /* NOTICE.txt */,
@@ -276,6 +281,41 @@
 				200000000000000000000020 /* gradle-wrapper.properties */,
 			);
 			path = wrapper;
+			sourceTree = "<group>";
+		};
+		400000000000000000000019 /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000001A /* scripts */,
+				40000000000000000000001C /* workflows */,
+			);
+			path = .github;
+			sourceTree = "<group>";
+		};
+		40000000000000000000001A /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				40000000000000000000001B /* e2e-test */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+		40000000000000000000001B /* e2e-test */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000024 /* README.md */,
+				200000000000000000000025 /* e2e_test.sh */,
+				200000000000000000000026 /* otel.yml */,
+			);
+			path = "e2e-test";
+			sourceTree = "<group>";
+		};
+		40000000000000000000001C /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000023 /* ci.yml */,
+			);
+			path = workflows;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

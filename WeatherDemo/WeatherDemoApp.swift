@@ -34,8 +34,32 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
       instrumentationConfiguration
     )
     DemoTelemetry.recordAppLaunch()
+
+#if DEBUG
+    runEndToEndScenarioIfRequested()
+#endif
     return true
   }
+
+#if DEBUG
+  private func runEndToEndScenarioIfRequested() {
+    switch ProcessInfo.processInfo.environment["WEATHER_DEMO_E2E_MODE"] {
+    case "telemetry":
+      Task {
+        await DemoTelemetry.runManualScenario()
+        DemoTelemetry.emitManualLog()
+        DemoTelemetry.emitManualMetric()
+        _ = try? await WeatherClient().forecast(for: ForecastRequest(city: .berlin))
+      }
+    case "crash":
+      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DemoTelemetry.crash()
+      }
+    default:
+      break
+    }
+  }
+#endif
 }
 
 @main

@@ -148,6 +148,19 @@ Run both the backend checks and a code-signing-free Simulator build:
 ./checks.sh
 ```
 
+## Continuous integration
+
+The GitHub Actions workflow builds both components and runs an end-to-end test on an iOS
+Simulator. The test starts native Elasticsearch and EDOT Collector processes, launches the app,
+exercises its telemetry scenario, and queries Elasticsearch to verify:
+
+- An iOS startup span and log.
+- A distributed trace shared by the iOS app and backend.
+- A persisted iOS crash report exported after relaunch.
+
+See [`.github/scripts/e2e-test/README.md`](.github/scripts/e2e-test/README.md) for local execution
+instructions and failure artifacts.
+
 ## License
 
 Apache License 2.0. See `LICENSE` and `NOTICE.txt`.

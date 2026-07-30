@@ -19,3 +19,6 @@ xcuserdata/
 
 # Local Elastic Stack created by start-local
 elastic-start-local/
+
+# Download cache used by the CI E2E test
+.ci-cache/
