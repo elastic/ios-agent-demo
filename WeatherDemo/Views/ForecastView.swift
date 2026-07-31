@@ -55,20 +55,20 @@ struct ForecastView: View {
   private func successView(temperature: Double) -> some View {
     ZStack {
       LinearGradient(
-        colors: gradientColors(for: temperature),
+        colors: WeatherFormatting.gradientColors(for: temperature),
         startPoint: .topLeading,
         endPoint: .bottomTrailing
       )
       .ignoresSafeArea()
 
       VStack(spacing: 14) {
-        Image(systemName: weatherIcon(for: temperature))
+        Image(systemName: WeatherFormatting.icon(for: temperature))
           .font(.system(size: 90, weight: .thin))
         Text(request.city.rawValue)
           .font(.title)
         Text(temperature.formatted(.number.precision(.fractionLength(1))) + " °C")
           .font(.system(size: 62, weight: .thin, design: .rounded))
-        Text(temperatureDescription(for: temperature))
+        Text(WeatherFormatting.description(for: temperature))
           .font(.title3)
         Link("Weather data by Open-Meteo.com", destination: URL(string: "https://open-meteo.com/")!)
           .font(.footnote)
@@ -97,7 +97,6 @@ struct ForecastView: View {
         Task { await load() }
       }
       .buttonStyle(.borderedProminent)
-      .tint(.elasticBlue)
     }
     .padding()
   }
@@ -110,47 +109,6 @@ struct ForecastView: View {
       phase = .success(response.currentWeather.temperature)
     } catch {
       phase = .failure(error.localizedDescription)
-    }
-  }
-
-  private func weatherIcon(for temperature: Double) -> String {
-    switch temperature {
-    case 20...:
-      return "sun.max"
-    case 5...:
-      return "cloud.sun"
-    default:
-      return "snowflake"
-    }
-  }
-
-  private func temperatureDescription(for temperature: Double) -> String {
-    switch temperature {
-    case 30...:
-      return "Hot"
-    case 25...:
-      return "Warm"
-    case 15...:
-      return "Mild"
-    case 5...:
-      return "Cool"
-    case 0...:
-      return "Chilly"
-    default:
-      return "Freezing"
-    }
-  }
-
-  private func gradientColors(for temperature: Double) -> [Color] {
-    switch temperature {
-    case 25...:
-      return [.orange, .yellow]
-    case 10...:
-      return [.green, .mint]
-    case 0...:
-      return [.blue, .cyan]
-    default:
-      return [.indigo, .purple]
     }
   }
 }

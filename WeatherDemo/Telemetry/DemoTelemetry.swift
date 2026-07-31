@@ -81,7 +81,7 @@ enum DemoTelemetry {
       value: 1,
       attributes: [
         "city": .string(city.rawValue),
-        "outcome": .string(succeeded ? "success" : "failure")
+        "outcome": .string(succeeded ? "success" : "failure"),
       ]
     )
   }
@@ -92,7 +92,7 @@ enum DemoTelemetry {
       severity: .warn,
       attributes: [
         "demo.action": .string("manual-log"),
-        "demo.source": .string("telemetry-lab")
+        "demo.source": .string("telemetry-lab"),
       ]
     )
   }
@@ -113,7 +113,7 @@ enum DemoTelemetry {
       name: "Manual checkout simulation",
       attributes: [
         "demo.action": .string("manual-span"),
-        "cart.items": .int(3)
+        "cart.items": .int(3),
       ]
     ) { span in
       try await Task.sleep(nanoseconds: 750_000_000)

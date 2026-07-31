@@ -27,9 +27,10 @@ struct WeatherHomeView: View {
             Label("Show forecast", systemImage: "arrow.right.circle.fill")
               .font(.headline)
           }
-          .simultaneousGesture(TapGesture().onEnded {
-            DemoTelemetry.recordNavigation(city: selectedCity)
-          })
+          .simultaneousGesture(
+            TapGesture().onEnded {
+              DemoTelemetry.recordNavigation(city: selectedCity)
+            })
         } header: {
           Text("Choose a city")
         } footer: {
@@ -45,7 +46,8 @@ struct WeatherHomeView: View {
           ScenarioRow(
             icon: "text.alignleft",
             title: "Custom telemetry",
-            detail: "The app adds a parent span, correlated logs, attributes, and a request counter."
+            detail:
+              "The app adds a parent span, correlated logs, attributes, and a request counter."
           )
           ScenarioRow(
             icon: "cpu",
@@ -78,7 +80,7 @@ struct ScenarioRow: View {
       }
     } icon: {
       Image(systemName: icon)
-        .foregroundStyle(Color.elasticBlue)
+        .foregroundStyle(Color.accentColor)
     }
     .padding(.vertical, 3)
   }

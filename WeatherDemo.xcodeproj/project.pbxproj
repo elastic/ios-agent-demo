@@ -18,7 +18,20 @@
 		100000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000009 /* Assets.xcassets */; };
 		10000000000000000000000A /* ElasticApm in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000001 /* ElasticApm */; };
 		10000000000000000000000B /* OpenTelemetryApi in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000002 /* OpenTelemetryApi */; };
+		10000000000000000000000C /* WeatherFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000027 /* WeatherFormatting.swift */; };
+		10000000000000000000000D /* WeatherFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000029 /* WeatherFormattingTests.swift */; };
+		10000000000000000000000E /* WeatherModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20000000000000000000002A /* WeatherModelTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E00000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 800000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 500000000000000000000001;
+			remoteInfo = WeatherDemo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		200000000000000000000001 /* WeatherDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDemoApp.swift; sourceTree = "<group>"; };
@@ -37,28 +50,21 @@
 		20000000000000000000000E /* NOTICE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.txt; sourceTree = "<group>"; };
 		20000000000000000000000F /* backend-manager */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "backend-manager"; sourceTree = "<group>"; };
 		200000000000000000000010 /* checks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = checks.sh; sourceTree = "<group>"; };
-		200000000000000000000011 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = build.gradle.kts; sourceTree = "<group>"; };
-		200000000000000000000012 /* settings.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = settings.gradle.kts; sourceTree = "<group>"; };
-		200000000000000000000013 /* gradle.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradle.properties; sourceTree = "<group>"; };
-		200000000000000000000014 /* gradlew */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = gradlew; sourceTree = "<group>"; };
-		200000000000000000000015 /* gradlew.bat */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradlew.bat; sourceTree = "<group>"; };
-		200000000000000000000016 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		200000000000000000000017 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = text; path = build.gradle.kts; sourceTree = "<group>"; };
-		200000000000000000000018 /* Dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
-		200000000000000000000019 /* BackendApplication.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = BackendApplication.java; sourceTree = "<group>"; };
-		20000000000000000000001A /* WeatherController.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = WeatherController.java; sourceTree = "<group>"; };
-		20000000000000000000001B /* CurrentWeatherResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = CurrentWeatherResponse.java; sourceTree = "<group>"; };
-		20000000000000000000001C /* ForecastResponse.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = ForecastResponse.java; sourceTree = "<group>"; };
-		20000000000000000000001D /* Location.java */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.java; path = Location.java; sourceTree = "<group>"; };
-		20000000000000000000001E /* elasticapm.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = elasticapm.properties; sourceTree = "<group>"; };
-		20000000000000000000001F /* gradle-wrapper.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "gradle-wrapper.jar"; sourceTree = "<group>"; };
-		200000000000000000000020 /* gradle-wrapper.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = "gradle-wrapper.properties"; sourceTree = "<group>"; };
 		200000000000000000000021 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		200000000000000000000022 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		200000000000000000000023 /* ci.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = ci.yml; sourceTree = "<group>"; };
 		200000000000000000000024 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		200000000000000000000025 /* e2e_test.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = e2e_test.sh; sourceTree = "<group>"; };
 		200000000000000000000026 /* otel.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = otel.yml; sourceTree = "<group>"; };
+		200000000000000000000027 /* WeatherFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFormatting.swift; sourceTree = "<group>"; };
+		200000000000000000000028 /* WeatherDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		200000000000000000000029 /* WeatherFormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFormattingTests.swift; sourceTree = "<group>"; };
+		20000000000000000000002A /* WeatherModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModelTests.swift; sourceTree = "<group>"; };
+		20000000000000000000002B /* components.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = components.png; sourceTree = "<group>"; };
+		20000000000000000000002C /* components.excalidraw */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = components.excalidraw; sourceTree = "<group>"; };
+		20000000000000000000002D /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		20000000000000000000002E /* renovate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = renovate.json; sourceTree = "<group>"; };
+		20000000000000000000002F /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ".swift-format"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +77,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		300000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -79,19 +92,17 @@
 			children = (
 				400000000000000000000019 /* .github */,
 				200000000000000000000021 /* .gitignore */,
+				20000000000000000000002F /* .swift-format */,
+				20000000000000000000002D /* CONTRIBUTING.md */,
 				20000000000000000000000D /* LICENSE */,
 				20000000000000000000000E /* NOTICE.txt */,
 				20000000000000000000000C /* README.md */,
 				400000000000000000000002 /* WeatherDemo */,
-				40000000000000000000000A /* backend */,
+				40000000000000000000001D /* WeatherDemoTests */,
+				40000000000000000000001E /* assets */,
 				20000000000000000000000F /* backend-manager */,
-				200000000000000000000011 /* build.gradle.kts */,
 				200000000000000000000010 /* checks.sh */,
-				400000000000000000000011 /* gradle */,
-				200000000000000000000013 /* gradle.properties */,
-				200000000000000000000014 /* gradlew */,
-				200000000000000000000015 /* gradlew.bat */,
-				200000000000000000000012 /* settings.gradle.kts */,
+				20000000000000000000002E /* renovate.json */,
 				400000000000000000000008 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -150,6 +161,7 @@
 				200000000000000000000006 /* WeatherHomeView.swift */,
 				200000000000000000000007 /* ForecastView.swift */,
 				200000000000000000000008 /* TelemetryLabView.swift */,
+				200000000000000000000027 /* WeatherFormatting.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,129 +170,9 @@
 			isa = PBXGroup;
 			children = (
 				20000000000000000000000B /* WeatherDemo.app */,
+				200000000000000000000028 /* WeatherDemoTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000A /* backend */ = {
-			isa = PBXGroup;
-			children = (
-				200000000000000000000018 /* Dockerfile */,
-				200000000000000000000016 /* README.md */,
-				200000000000000000000017 /* build.gradle.kts */,
-				40000000000000000000000B /* src */,
-			);
-			path = backend;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000B /* src */ = {
-			isa = PBXGroup;
-			children = (
-				40000000000000000000000C /* main */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000C /* main */ = {
-			isa = PBXGroup;
-			children = (
-				40000000000000000000000D /* java */,
-				40000000000000000000000F /* resources */,
-			);
-			path = main;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000D /* java */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000013 /* co */,
-			);
-			path = java;
-			sourceTree = "<group>";
-		};
-		400000000000000000000013 /* co */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000014 /* elastic */,
-			);
-			path = co;
-			sourceTree = "<group>";
-		};
-		400000000000000000000014 /* elastic */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000015 /* apm */,
-			);
-			path = elastic;
-			sourceTree = "<group>";
-		};
-		400000000000000000000015 /* apm */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000016 /* ios */,
-			);
-			path = apm;
-			sourceTree = "<group>";
-		};
-		400000000000000000000016 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000017 /* demo */,
-			);
-			path = ios;
-			sourceTree = "<group>";
-		};
-		400000000000000000000017 /* demo */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000018 /* backend */,
-			);
-			path = demo;
-			sourceTree = "<group>";
-		};
-		400000000000000000000018 /* backend */ = {
-			isa = PBXGroup;
-			children = (
-				200000000000000000000019 /* BackendApplication.java */,
-				20000000000000000000001A /* WeatherController.java */,
-				40000000000000000000000E /* data */,
-			);
-			path = backend;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000E /* data */ = {
-			isa = PBXGroup;
-			children = (
-				20000000000000000000001B /* CurrentWeatherResponse.java */,
-				20000000000000000000001C /* ForecastResponse.java */,
-				20000000000000000000001D /* Location.java */,
-			);
-			path = data;
-			sourceTree = "<group>";
-		};
-		40000000000000000000000F /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				20000000000000000000001E /* elasticapm.properties */,
-			);
-			path = resources;
-			sourceTree = "<group>";
-		};
-		400000000000000000000011 /* gradle */ = {
-			isa = PBXGroup;
-			children = (
-				400000000000000000000012 /* wrapper */,
-			);
-			path = gradle;
-			sourceTree = "<group>";
-		};
-		400000000000000000000012 /* wrapper */ = {
-			isa = PBXGroup;
-			children = (
-				20000000000000000000001F /* gradle-wrapper.jar */,
-				200000000000000000000020 /* gradle-wrapper.properties */,
-			);
-			path = wrapper;
 			sourceTree = "<group>";
 		};
 		400000000000000000000019 /* .github */ = {
@@ -318,6 +210,24 @@
 			path = workflows;
 			sourceTree = "<group>";
 		};
+		40000000000000000000001D /* WeatherDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				200000000000000000000029 /* WeatherFormattingTests.swift */,
+				20000000000000000000002A /* WeatherModelTests.swift */,
+			);
+			path = WeatherDemoTests;
+			sourceTree = "<group>";
+		};
+		40000000000000000000001E /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				20000000000000000000002C /* components.excalidraw */,
+				20000000000000000000002B /* components.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -342,6 +252,25 @@
 			productReference = 20000000000000000000000B /* WeatherDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		500000000000000000000002 /* WeatherDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 900000000000000000000003 /* Build configuration list for PBXNativeTarget "WeatherDemoTests" */;
+			buildPhases = (
+				600000000000000000000002 /* Sources */,
+				300000000000000000000002 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D00000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = WeatherDemoTests;
+			packageProductDependencies = (
+			);
+			productName = WeatherDemoTests;
+			productReference = 200000000000000000000028 /* WeatherDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -354,6 +283,10 @@
 				TargetAttributes = {
 					500000000000000000000001 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					500000000000000000000002 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 500000000000000000000001;
 					};
 				};
 			};
@@ -375,6 +308,7 @@
 			projectRoot = "";
 			targets = (
 				500000000000000000000001 /* WeatherDemo */,
+				500000000000000000000002 /* WeatherDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -403,10 +337,28 @@
 				100000000000000000000006 /* WeatherHomeView.swift in Sources */,
 				100000000000000000000007 /* ForecastView.swift in Sources */,
 				100000000000000000000008 /* TelemetryLabView.swift in Sources */,
+				10000000000000000000000C /* WeatherFormatting.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		600000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10000000000000000000000D /* WeatherFormattingTests.swift in Sources */,
+				10000000000000000000000E /* WeatherModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D00000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 500000000000000000000001 /* WeatherDemo */;
+			targetProxy = E00000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C00000000000000000000001 /* Debug */ = {
@@ -516,6 +468,7 @@
 		C00000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -541,6 +494,7 @@
 		C00000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -563,6 +517,46 @@
 			};
 			name = Release;
 		};
+		C00000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.elastic.edot.ios.demo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeatherDemo";
+			};
+			name = Debug;
+		};
+		C00000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.elastic.edot.ios.demo.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeatherDemo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -580,6 +574,15 @@
 			buildConfigurations = (
 				C00000000000000000000003 /* Debug */,
 				C00000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		900000000000000000000003 /* Build configuration list for PBXNativeTarget "WeatherDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C00000000000000000000005 /* Debug */,
+				C00000000000000000000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

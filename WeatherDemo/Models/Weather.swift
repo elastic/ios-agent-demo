@@ -16,10 +16,6 @@ enum City: String, CaseIterable, Identifiable {
   case newYork = "New York"
 
   var id: String { rawValue }
-
-  var isSupported: Bool {
-    self != .newYork
-  }
 }
 
 struct ForecastRequest: Hashable {
