@@ -30,14 +30,15 @@ flowchart LR
 ```
 
 - `WeatherDemo/` contains the SwiftUI application. It uses EDOT iOS and the OpenTelemetry API.
-- `backend/` contains a Spring Boot service instrumented by the EDOT Java runtime attach library.
+- The independently released
+  [shared demo backend](https://github.com/elastic/shared-otel-sdk-demo) is a Spring Boot service
+  instrumented by the EDOT Java runtime attach library.
 - Elastic `start-local` provides Elasticsearch, Kibana, and an Elastic Agent OTLP endpoint.
 
 ## Prerequisites
 
 - macOS with Xcode and an iOS 16 or newer Simulator.
 - Docker Desktop or another Docker environment available to the macOS host.
-- Java 17 or newer. Gradle can provision a matching toolchain when necessary.
 
 ## Run the demo
 
@@ -142,7 +143,7 @@ service.name=weather-demo-ios,deployment.environment=local
 
 ## Validate changes
 
-Run both the backend checks and a code-signing-free Simulator build:
+Run a code-signing-free Simulator build:
 
 ```sh
 ./checks.sh
@@ -150,9 +151,10 @@ Run both the backend checks and a code-signing-free Simulator build:
 
 ## Continuous integration
 
-The GitHub Actions workflow builds both components and runs an end-to-end test on an iOS
-Simulator. The test starts native Elasticsearch and EDOT Collector processes, launches the app,
-exercises its telemetry scenario, and queries Elasticsearch to verify:
+The GitHub Actions workflow builds the iOS app and runs an end-to-end test on an iOS Simulator. The
+test starts native Elasticsearch and EDOT Collector processes, downloads and runs the released
+backend JAR, launches the app, exercises its telemetry scenario, and queries Elasticsearch to
+verify:
 
 - An iOS startup span and log.
 - A distributed trace shared by the iOS app and backend.

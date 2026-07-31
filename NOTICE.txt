@@ -2,5 +2,3 @@ Elastic Distribution of OpenTelemetry iOS Demo
 Copyright 2026 Elasticsearch B.V.
 
 This product includes software developed by Elasticsearch B.V.
-
-The Gradle wrapper is distributed under the Apache License, Version 2.0.

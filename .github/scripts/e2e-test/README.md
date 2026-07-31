@@ -8,7 +8,7 @@ telemetry reaches Elasticsearch.
 The test:
 
 1. Starts Elasticsearch and the EDOT Collector as native macOS processes.
-2. Builds and starts the instrumented backend.
+2. Downloads and starts the released instrumented backend JAR.
 3. Builds, installs, and launches the iOS application in a fresh Simulator.
 4. Runs a test-only app scenario that creates manual telemetry and requests a Berlin forecast.
 5. Verifies an iOS startup span and log in Elasticsearch.
@@ -30,8 +30,8 @@ From the repository root:
 ```
 
 The first run downloads the pinned Elasticsearch and EDOT Collector archives to the ignored
-`.ci-cache/elastic/` directory. Set `ELASTIC_VERSION` to test another matching Stack and Collector
-version.
+`.ci-cache/elastic/` directory and the backend JAR to `.ci-cache/backend/`. Set `ELASTIC_VERSION` or
+`BACKEND_VERSION` to test another matching version.
 
 ## Failure artifacts
 
