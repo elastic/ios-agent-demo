@@ -19,7 +19,8 @@ The script runs, in order:
    ```
 
 2. The `WeatherDemoTests` unit tests, in Debug, on the first available iPhone Simulator.
-3. A code-signing-free Release build, which also proves that code outside `#if DEBUG` still
+3. A check that Xcode dependency resolution did not leave `Package.resolved` stale.
+4. A code-signing-free Release build, which also proves that code outside `#if DEBUG` still
    compiles under the optimizer.
 
 Requirements: Xcode 16 or newer (for `swift format`) and `jq`.
@@ -36,9 +37,10 @@ Requirements: Xcode 16 or newer (for `swift format`) and `jq`.
 
 ## Continuous integration
 
-The `ci` workflow runs two jobs plus a gatekeeper:
+The `ci` workflow runs a change detector, two conditional jobs, and a gatekeeper:
 
-- **checks** — runs `./checks.sh` (lint, unit tests, Release build).
+- **changes** — detects whether the pull request or push contains anything other than Markdown.
+- **checks** — runs `./checks.sh` (lint, unit tests, lockfile validation, Release build).
 - **e2e** — runs `.github/scripts/e2e-test/e2e_test.sh`: starts native Elasticsearch and EDOT
   Collector processes, downloads and runs the released backend JAR, builds the app in **Release**,
   launches it on a throwaway Simulator, exercises the telemetry and crash scenarios, and queries
@@ -47,13 +49,22 @@ The `ci` workflow runs two jobs plus a gatekeeper:
   job uploads `build/e2e/` diagnostics plus a `WeatherDemo.app.dSYM.zip` for symbolicating the
   crash report. See [`.github/scripts/e2e-test/README.md`](.github/scripts/e2e-test/README.md)
   for local execution.
-- **ci** — aggregates the two jobs as the branch-protection gate.
+- **ci** — aggregates the results as the branch-protection gate. For Markdown-only changes, it
+  succeeds after `changes` while the two macOS jobs are skipped.
 
-Doc-only changes (`**/*.md`) skip the workflow.
+Markdown-only changes (`**/*.md`) skip the code-related macOS jobs, but the lightweight workflow
+still runs so the required `ci` check reports success.
 
 ## Dependencies
 
 Renovate manages the Swift package pins in `project.pbxproj` (via a custom regex manager — the
-native Renovate Swift manager only reads `Package.swift`) and the SHA-pinned GitHub Actions. When
-a Renovate PR bumps a package pin, `WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`
-may need a manual refresh (`xcodebuild -resolvePackageDependencies`).
+native Renovate Swift manager only reads `Package.swift`) and the SHA-pinned GitHub Actions. After
+a package pin changes, refresh and commit the Xcode lockfile:
+
+```sh
+xcodebuild -resolvePackageDependencies -project WeatherDemo.xcodeproj -scheme WeatherDemo
+git add WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+```
+
+`checks.sh` fails if Xcode changes `Package.resolved` during dependency resolution, preventing a
+Renovate update from being merged with a stale lockfile.

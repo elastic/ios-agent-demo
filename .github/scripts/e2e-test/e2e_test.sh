@@ -288,8 +288,8 @@ print_failure_diagnostics() {
     "$BUILD_DIR/collector.log" \
     "$BUILD_DIR/backend.log" \
     "$BUILD_DIR/app-telemetry.stderr.log" \
-    "$BUILD_DIR/app-crash.stderr.log" \
-    "$BUILD_DIR/app-relaunch.stderr.log"; do
+    "$BUILD_DIR"/app-crash-attempt-*.stderr.log \
+    "$BUILD_DIR"/app-relaunch-attempt-*.stderr.log; do
     if [ -f "$file" ]; then
       echo "--- Last 100 lines of $(basename "$file") ---" >&2
       tail -n 100 "$file" >&2 || true
@@ -483,7 +483,7 @@ crash_attempts=3
 for attempt in $(seq 1 "$crash_attempts"); do
   echo "Triggering intentional iOS crash (attempt $attempt/$crash_attempts)..."
   xcrun simctl terminate "$simulator_udid" "$APP_BUNDLE_ID" >/dev/null 2>&1 || true
-  crash_pid=$(launch_app crash app-crash)
+  crash_pid=$(launch_app crash "app-crash-attempt-$attempt")
 
   crash_detected=false
   for _ in $(seq 1 20); do
@@ -499,7 +499,7 @@ for attempt in $(seq 1 "$crash_attempts"); do
   fi
 
   echo "Relaunching app to export persisted crash report..."
-  launch_app export app-relaunch >/dev/null
+  launch_app export "app-relaunch-attempt-$attempt" >/dev/null
   if crash_event=$(es_wait_for_item \
     "logs-*" \
     "$(crash_query)" \

@@ -42,6 +42,7 @@ The first run downloads the pinned Elasticsearch and EDOT Collector archives to 
 Results and diagnostics are stored under `build/e2e/`, including:
 
 - Elasticsearch, Collector, backend, and Simulator logs.
+- Separate crash and relaunch logs for every crash retry attempt.
 - The Elasticsearch documents used by each assertion.
 - Simulator system logs captured on failure.
 - `WeatherDemo.app.dSYM.zip`, the debug symbols of the exact Release binary under test, for

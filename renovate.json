@@ -20,6 +20,14 @@
   ],
   "packageRules": [
     {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "prBodyNotes": [
+        "Refresh and commit `WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` after this update; `./checks.sh` verifies that the lockfile is current."
+      ]
+    },
+    {
       "matchPackageNames": [
         "elastic/apm-agent-ios"
       ],
