@@ -1,5 +1,8 @@
 name: ci
 
+env:
+  BACKEND_VERSION: 0.0.2
+
 on:
   pull_request:
   push:
@@ -31,12 +34,16 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-          cache: gradle
       - name: Cache Elastic distributions
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: .ci-cache/elastic
-          key: elastic-e2e-9.4.2-backend-0.0.1-${{ runner.os }}-${{ runner.arch }}
+          key: elastic-e2e-9.4.2-${{ runner.os }}-${{ runner.arch }}
+      - name: Cache backend release
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .ci-cache/backend
+          key: backend-${{ env.BACKEND_VERSION }}-${{ runner.os }}-${{ runner.arch }}
       - name: Run end-to-end telemetry test
         run: .github/scripts/e2e-test/e2e_test.sh
       - name: Store end-to-end diagnostics

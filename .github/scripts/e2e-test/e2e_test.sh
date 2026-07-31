@@ -5,11 +5,13 @@ set -euo pipefail
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 REPO_ROOT=$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)
 BUILD_DIR="$REPO_ROOT/build/e2e"
-CACHE_DIR="$REPO_ROOT/.ci-cache/elastic"
+ELASTIC_CACHE_DIR="$REPO_ROOT/.ci-cache/elastic"
+BACKEND_CACHE_DIR="$REPO_ROOT/.ci-cache/backend"
 RUNTIME_DIR="$BUILD_DIR/runtime"
 DERIVED_DATA_DIR="$BUILD_DIR/DerivedData"
 
 ELASTIC_VERSION=${ELASTIC_VERSION:-9.4.2}
+BACKEND_VERSION=${BACKEND_VERSION:-0.0.2}
 ELASTICSEARCH_URL=http://127.0.0.1:9200
 COLLECTOR_HOST=127.0.0.1
 COLLECTOR_PORT=4318
@@ -328,7 +330,7 @@ for command in curl git java jq nc shasum tar xcodebuild xcrun; do
   require_command "$command"
 done
 
-mkdir -p "$BUILD_DIR" "$CACHE_DIR" "$RUNTIME_DIR"
+mkdir -p "$BUILD_DIR" "$ELASTIC_CACHE_DIR" "$BACKEND_CACHE_DIR" "$RUNTIME_DIR"
 
 case "$(uname -m)" in
   arm64) elastic_arch=aarch64 ;;
@@ -339,8 +341,8 @@ case "$(uname -m)" in
     ;;
 esac
 
-elasticsearch_archive="$CACHE_DIR/elasticsearch-$ELASTIC_VERSION-darwin-$elastic_arch.tar.gz"
-collector_archive="$CACHE_DIR/elastic-agent-$ELASTIC_VERSION-darwin-$elastic_arch.tar.gz"
+elasticsearch_archive="$ELASTIC_CACHE_DIR/elasticsearch-$ELASTIC_VERSION-darwin-$elastic_arch.tar.gz"
+collector_archive="$ELASTIC_CACHE_DIR/elastic-agent-$ELASTIC_VERSION-darwin-$elastic_arch.tar.gz"
 
 download_archive \
   "https://artifacts.elastic.co/downloads/elasticsearch/$(basename "$elasticsearch_archive")" \
@@ -378,8 +380,7 @@ collector_pid=$!
 wait_for_port "$COLLECTOR_HOST" "$COLLECTOR_PORT" "EDOT Collector" 120
 
 echo "Downloading and starting backend..."
-BACKEND_VERSION="0.0.1"
-backend_jar="$CACHE_DIR/backend-${BACKEND_VERSION}.jar"
+backend_jar="$BACKEND_CACHE_DIR/backend-${BACKEND_VERSION}.jar"
 backend_release_url="https://github.com/elastic/shared-otel-sdk-demo/releases/download/backend/v${BACKEND_VERSION}"
 
 if [ ! -f "$backend_jar" ]; then
@@ -390,7 +391,7 @@ if [ ! -f "${backend_jar}.sha256" ]; then
   curl --fail --location --retry 3 --retry-delay 2 \
     --output "${backend_jar}.sha256" "$backend_release_url/backend-${BACKEND_VERSION}.jar.sha256"
 fi
-(cd "$CACHE_DIR" && shasum -a 256 -c "backend-${BACKEND_VERSION}.jar.sha256")
+(cd "$BACKEND_CACHE_DIR" && shasum -a 256 -c "backend-${BACKEND_VERSION}.jar.sha256")
 
 OTEL_SERVICE_NAME="$BACKEND_SERVICE_NAME" \
 OTEL_RESOURCE_ATTRIBUTES="deployment.environment.name=ci,test.run_id=$TEST_RUN_ID" \
