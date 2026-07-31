@@ -1,16 +1,16 @@
 #!/bin/sh
 set -e
 
-BASEDIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 CONTAINER_NAME="ios-weather-backend"
-IMAGE_NAME="ios-weather-backend"
+BACKEND_VERSION="0.0.1"
+BACKEND_IMAGE="ghcr.io/elastic/shared-otel-sdk-demo/backend:${BACKEND_VERSION}"
 NETWORK_NAME="elastic-start-local_default"
 TIMEOUT=60
 
 usage() {
   echo "Usage: $0 {start|stop|uninstall|logs}"
   echo ""
-  echo "  start      Build and run the backend service"
+  echo "  start      Pull and run the backend service"
   echo "  stop       Stop the running backend container"
   echo "  uninstall  Stop the container and remove its image"
   echo "  logs       Follow backend container logs"
@@ -18,8 +18,6 @@ usage() {
 }
 
 cmd_start() {
-  "$BASEDIR/gradlew" -p "$BASEDIR" :backend:bootJar
-
   if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
     echo "Error: Docker network '$NETWORK_NAME' was not found."
     echo "Run 'curl -fsSL https://elastic.co/start-local | sh -s -- --edot' first."
@@ -27,13 +25,13 @@ cmd_start() {
   fi
 
   docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-  docker build -t "$IMAGE_NAME" "$BASEDIR/backend"
+  docker pull "$BACKEND_IMAGE"
   docker run -d --name "$CONTAINER_NAME" \
     --network "$NETWORK_NAME" \
     -p 8080:8080 \
     -e OTEL_SERVICE_NAME=weather-demo-backend \
     -e OTEL_EXPORTER_OTLP_ENDPOINT=http://edot-collector:4318 \
-    "$IMAGE_NAME"
+    "$BACKEND_IMAGE"
 
   echo "Waiting for $CONTAINER_NAME to be ready..."
   start_time=$(date +%s)
@@ -64,8 +62,8 @@ cmd_uninstall() {
   if docker ps -a -q --filter "name=^${CONTAINER_NAME}$" | grep -q .; then
     docker rm "$CONTAINER_NAME"
   fi
-  if docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
-    docker rmi "$IMAGE_NAME"
+  if docker image inspect "$BACKEND_IMAGE" >/dev/null 2>&1; then
+    docker rmi "$BACKEND_IMAGE"
   fi
   echo "$CONTAINER_NAME was uninstalled."
 }

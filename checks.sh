@@ -4,8 +4,6 @@ set -eu
 BASEDIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 SIMULATOR_ARCH=$(uname -m)
 
-"$BASEDIR/gradlew" -p "$BASEDIR" :backend:check :backend:bootJar
-
 xcodebuild \
   -quiet \
   -project "$BASEDIR/WeatherDemo.xcodeproj" \

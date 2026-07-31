@@ -377,13 +377,26 @@ ELASTIC_ENDPOINT="$ELASTICSEARCH_URL" \
 collector_pid=$!
 wait_for_port "$COLLECTOR_HOST" "$COLLECTOR_PORT" "EDOT Collector" 120
 
-echo "Building and starting backend..."
-"$REPO_ROOT/gradlew" -p "$REPO_ROOT" :backend:bootJar --no-daemon
+echo "Downloading and starting backend..."
+BACKEND_VERSION="0.0.1"
+backend_jar="$CACHE_DIR/backend-${BACKEND_VERSION}.jar"
+backend_release_url="https://github.com/elastic/shared-otel-sdk-demo/releases/download/backend/v${BACKEND_VERSION}"
+
+if [ ! -f "$backend_jar" ]; then
+  curl --fail --location --retry 3 --retry-delay 2 \
+    --output "$backend_jar" "$backend_release_url/backend-${BACKEND_VERSION}.jar"
+fi
+if [ ! -f "${backend_jar}.sha256" ]; then
+  curl --fail --location --retry 3 --retry-delay 2 \
+    --output "${backend_jar}.sha256" "$backend_release_url/backend-${BACKEND_VERSION}.jar.sha256"
+fi
+(cd "$CACHE_DIR" && shasum -a 256 -c "backend-${BACKEND_VERSION}.jar.sha256")
+
 OTEL_SERVICE_NAME="$BACKEND_SERVICE_NAME" \
 OTEL_RESOURCE_ATTRIBUTES="deployment.environment.name=ci,test.run_id=$TEST_RUN_ID" \
 OTEL_EXPORTER_OTLP_ENDPOINT="http://$COLLECTOR_HOST:$COLLECTOR_PORT" \
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
-  java -jar "$REPO_ROOT/backend/build/libs/backend.jar" \
+  java -jar "$backend_jar" \
   > "$BUILD_DIR/backend.log" 2>&1 &
 backend_pid=$!
 wait_for_url "$BACKEND_URL/health" backend 120

@@ -66,8 +66,8 @@ The generated scripts can stop or restart the stack later:
 ./backend-manager start
 ```
 
-The script builds the backend, creates its Docker image, connects it to the start-local network, and
-waits for `http://localhost:8080/v1/health`.
+The script pulls the pre-built backend Docker image from `ghcr.io`, connects it to the start-local
+network, and waits for `http://localhost:8080/v1/health`.
 
 Other commands:
 
