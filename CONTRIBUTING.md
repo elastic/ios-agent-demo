@@ -58,13 +58,22 @@ still runs so the required `ci` check reports success.
 ## Dependencies
 
 Renovate manages the Swift package pins in `project.pbxproj` (via a custom regex manager — the
-native Renovate Swift manager only reads `Package.swift`) and the SHA-pinned GitHub Actions. After
-a package pin changes, refresh and commit the Xcode lockfile:
+native Renovate Swift manager only reads `Package.swift`) and the SHA-pinned GitHub Actions.
+
+Renovate cannot refresh the SwiftPM lockfile itself, so the `renovate-lockfile` workflow does it:
+on every `renovate/*` pull request that touches `project.pbxproj`, it resolves dependencies and
+pushes the updated `Package.resolved` back to the Renovate branch. It authenticates with the
+`RENOVATE_LOCKFILE_TOKEN` repository secret (a fine-grained personal access token with
+`contents: read/write` on this repository). Without the secret it falls back to the default
+workflow token, whose pushes do not trigger the `ci` workflow — the PR would then need a manual
+re-run or an empty commit to go green.
+
+When changing a pin manually, refresh and commit the lockfile yourself:
 
 ```sh
 xcodebuild -resolvePackageDependencies -project WeatherDemo.xcodeproj -scheme WeatherDemo
 git add WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 ```
 
-`checks.sh` fails if Xcode changes `Package.resolved` during dependency resolution, preventing a
-Renovate update from being merged with a stale lockfile.
+`checks.sh` fails if Xcode changes `Package.resolved` during dependency resolution, preventing any
+update from being merged with a stale lockfile.

@@ -24,7 +24,7 @@
         "custom.regex"
       ],
       "prBodyNotes": [
-        "Refresh and commit `WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved` after this update; `./checks.sh` verifies that the lockfile is current."
+        "The `renovate-lockfile` workflow refreshes `Package.resolved` on this branch automatically. If it could not run, refresh and commit the lockfile manually; `./checks.sh` verifies that it is current."
       ]
     },
     {
