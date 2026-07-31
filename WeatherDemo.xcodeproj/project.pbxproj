@@ -45,7 +45,6 @@
 		20000000000000000000000B /* WeatherDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20000000000000000000000C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		20000000000000000000000D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		20000000000000000000000E /* NOTICE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = NOTICE.txt; sourceTree = "<group>"; };
 		20000000000000000000000F /* backend-manager */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "backend-manager"; sourceTree = "<group>"; };
 		200000000000000000000010 /* checks.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = checks.sh; sourceTree = "<group>"; };
 		200000000000000000000021 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -60,8 +59,7 @@
 		20000000000000000000002A /* WeatherModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModelTests.swift; sourceTree = "<group>"; };
 		20000000000000000000002B /* components.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = components.png; sourceTree = "<group>"; };
 		20000000000000000000002C /* components.excalidraw */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = components.excalidraw; sourceTree = "<group>"; };
-		20000000000000000000002D /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
-		20000000000000000000002E /* renovate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = renovate.json; sourceTree = "<group>"; };
+		20000000000000000000002D /* CI.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CI.md; sourceTree = "<group>"; };
 		20000000000000000000002F /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ".swift-format"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,16 +89,13 @@
 				400000000000000000000019 /* .github */,
 				200000000000000000000021 /* .gitignore */,
 				20000000000000000000002F /* .swift-format */,
-				20000000000000000000002D /* CONTRIBUTING.md */,
 				20000000000000000000000D /* LICENSE */,
-				20000000000000000000000E /* NOTICE.txt */,
 				20000000000000000000000C /* README.md */,
 				400000000000000000000002 /* WeatherDemo */,
 				40000000000000000000001D /* WeatherDemoTests */,
 				40000000000000000000001E /* assets */,
 				20000000000000000000000F /* backend-manager */,
 				200000000000000000000010 /* checks.sh */,
-				20000000000000000000002E /* renovate.json */,
 				400000000000000000000008 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -175,6 +170,7 @@
 		400000000000000000000019 /* .github */ = {
 			isa = PBXGroup;
 			children = (
+				20000000000000000000002D /* CI.md */,
 				40000000000000000000001A /* scripts */,
 				40000000000000000000001C /* workflows */,
 			);
