@@ -20,12 +20,6 @@ enum City: String, CaseIterable, Identifiable {
 
 struct ForecastRequest: Hashable {
   let city: City
-  let delayMilliseconds: Int
-
-  init(city: City, delayMilliseconds: Int = 0) {
-    self.city = city
-    self.delayMilliseconds = delayMilliseconds
-  }
 }
 
 struct ForecastResponse: Decodable {

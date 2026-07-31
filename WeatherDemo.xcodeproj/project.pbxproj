@@ -14,7 +14,6 @@
 		100000000000000000000005 /* DemoTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000005 /* DemoTelemetry.swift */; };
 		100000000000000000000006 /* WeatherHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000006 /* WeatherHomeView.swift */; };
 		100000000000000000000007 /* ForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000007 /* ForecastView.swift */; };
-		100000000000000000000008 /* TelemetryLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000008 /* TelemetryLabView.swift */; };
 		100000000000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200000000000000000000009 /* Assets.xcassets */; };
 		10000000000000000000000A /* ElasticApm in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000001 /* ElasticApm */; };
 		10000000000000000000000B /* OpenTelemetryApi in Frameworks */ = {isa = PBXBuildFile; productRef = A00000000000000000000002 /* OpenTelemetryApi */; };
@@ -41,7 +40,6 @@
 		200000000000000000000005 /* DemoTelemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTelemetry.swift; sourceTree = "<group>"; };
 		200000000000000000000006 /* WeatherHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeView.swift; sourceTree = "<group>"; };
 		200000000000000000000007 /* ForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastView.swift; sourceTree = "<group>"; };
-		200000000000000000000008 /* TelemetryLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryLabView.swift; sourceTree = "<group>"; };
 		200000000000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20000000000000000000000A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20000000000000000000000B /* WeatherDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,7 +158,6 @@
 			children = (
 				200000000000000000000006 /* WeatherHomeView.swift */,
 				200000000000000000000007 /* ForecastView.swift */,
-				200000000000000000000008 /* TelemetryLabView.swift */,
 				200000000000000000000027 /* WeatherFormatting.swift */,
 			);
 			path = Views;
@@ -336,7 +333,6 @@
 				100000000000000000000005 /* DemoTelemetry.swift in Sources */,
 				100000000000000000000006 /* WeatherHomeView.swift in Sources */,
 				100000000000000000000007 /* ForecastView.swift in Sources */,
-				100000000000000000000008 /* TelemetryLabView.swift in Sources */,
 				10000000000000000000000C /* WeatherFormatting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

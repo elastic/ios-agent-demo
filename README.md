@@ -8,12 +8,15 @@ full agent reference.
 
 Choose a city, request its current weather through a local instrumented backend, and inspect the
 complete distributed trace in Elastic. The demo also includes focused examples of manual spans,
-logs, metrics, a slow trace, an intentional backend error, and an intentional iOS crash.
+logs, an intentional backend error, and an intentional iOS crash.
 
 ## Table of contents
 
 - [What you can observe](#what-you-can-observe)
 - [Components](#components)
+  - [Backend service](#backend-service)
+  - [iOS application](#ios-application)
+  - [Elastic Agent](#elastic-agent)
 - [Prerequisites](#prerequisites)
 - [Run the demo](#run-the-demo)
   - [1. Start the Elastic Stack](#1-start-the-elastic-stack)
@@ -26,24 +29,39 @@ logs, metrics, a slow trace, an intentional backend error, and an intentional iO
 
 ## What you can observe
 
-- Distributed traces from a SwiftUI action through `URLSession`, the Java backend, and Open-Meteo.
+- Distributed traces from a SwiftUI action through `URLSession`, the backend, and Open-Meteo.
 - Automatic iOS lifecycle, view controller, network, CPU, and memory telemetry
   ([supported technologies](https://www.elastic.co/docs/reference/opentelemetry/edot-sdks/ios/supported-technologies)).
-- A custom parent span, correlated log records, span attributes, and application counters.
+- A custom parent span, correlated log records, and span attributes.
 - A backend error when New York is selected.
-- A deliberately slow request from the Telemetry Lab.
 - A persisted crash report exported after the app is relaunched.
 
 ## Components
 
 ![components](assets/components.png)
 
-- `WeatherDemo/` contains the SwiftUI application. It uses EDOT iOS and the OpenTelemetry API.
-- The independently released
-  [shared demo backend](https://github.com/elastic/shared-otel-sdk-demo) is a Spring Boot service
-  instrumented by the EDOT Java runtime attach library.
-- Elastic `start-local` provides Elasticsearch, Kibana, and an
-  [Elastic Agent OTLP endpoint](https://www.elastic.co/docs/reference/fleet/elastic-agent-as-otel-collector).
+### Backend service
+
+A simple Spring Boot service that provides APIs for the application and helps showcasing the
+distributed tracing use case. It is instrumented by the EDOT Java runtime attach library, and its
+source is maintained in
+[elastic/shared-otel-sdk-demo](https://github.com/elastic/shared-otel-sdk-demo/tree/main/backend).
+
+### iOS application
+
+Located in the [WeatherDemo](WeatherDemo) directory. The Weather screen has a city picker and a
+**Show forecast** button that takes you to the forecast screen, where you'll see the selected
+city's current temperature. If you pick a non-European city, you'll get an error from the (local)
+backend when you head to the forecast screen. This is to demonstrate how network and backend errors
+are captured and correlated. The app can also crash itself intentionally so you can inspect iOS
+crash reporting in Kibana.
+
+### Elastic Agent
+
+The [Elastic Agent](https://www.elastic.co/docs/reference/fleet/elastic-agent-as-otel-collector)
+provides the OTLP endpoint that receives telemetry from the iOS application and backend service,
+then forwards it to Elasticsearch for storage and analysis. In this demo, it is set up automatically
+as part of [Step 1](#1-start-the-elastic-stack) via start-local.
 
 ## Prerequisites
 
@@ -54,37 +72,62 @@ logs, metrics, a slow trace, an intentional backend error, and an intentional iO
 
 ### 1. Start the Elastic Stack
 
-From the repository root:
+We use [start-local](https://github.com/elastic/start-local/) to spin up Elasticsearch, Kibana and
+the Elastic Agent locally with a single command. In this setup, the Elastic Agent provides the OTLP
+endpoint that receives telemetry from the iOS application and backend service. Run this command
+from the repository root:
 
 ```sh
 curl -fsSL https://elastic.co/start-local | sh -s -- --edot
 ```
 
-This creates an ignored `elastic-start-local/` directory and starts Elasticsearch, Kibana, and the
+This creates an `elastic-start-local/` directory and starts Elasticsearch, Kibana, and the
 Elastic Agent. The app is already configured to send OTLP/HTTP telemetry to
 `http://localhost:4318`.
 
-The generated scripts can stop or restart the stack later:
+You can stop and start the services later with the scripts in the `elastic-start-local` folder:
 
 ```sh
-./elastic-start-local/stop.sh
-./elastic-start-local/start.sh
+./elastic-start-local/stop.sh   # stop the services
+./elastic-start-local/start.sh  # start them again
 ```
 
+For more information on start-local, refer to
+the [start-local documentation](https://github.com/elastic/start-local/).
+
 ### 2. Start the instrumented backend
+
+We're going to use the `backend-manager` script, which will pull the pre-built
+[backend](https://github.com/elastic/shared-otel-sdk-demo/tree/main/backend) Docker image from
+`ghcr.io` and run it connected to the same network as the Elastic Agent.
+
+Once the backend service is running, its endpoint will be `http://localhost:8080/v1/`. You don't
+need to set it for this demo application, as it has already been done
+[here](WeatherDemo/Configuration/DemoConfiguration.swift). So, once the backend service is running,
+you're ready to go to the next step.
+
+Execute the [backend-manager](backend-manager) script. You can do so by opening up a terminal,
+navigating to this directory and running the following command:
 
 ```sh
 ./backend-manager start
 ```
 
-The script pulls the pre-built backend Docker image from `ghcr.io`, connects it to the start-local
-network, and waits for `http://localhost:8080/v1/health`.
-
-Other commands:
+To see the backend logs:
 
 ```sh
 ./backend-manager logs
+```
+
+To stop the backend:
+
+```sh
 ./backend-manager stop
+```
+
+To stop the backend and remove the Docker image from your machine:
+
+```sh
 ./backend-manager uninstall
 ```
 
@@ -93,30 +136,27 @@ Other commands:
 Open `WeatherDemo.xcodeproj` in Xcode, select an iPhone Simulator, and run the `WeatherDemo` scheme.
 The first package resolution downloads EDOT iOS and its Swift Package Manager dependencies.
 
-In the Weather tab:
+Once everything is running, navigate around in the app to generate some load that we would like to
+observe in Elastic APM. So, select Berlin, London, or Paris, tap **Show forecast** and repeat it
+multiple times. To see the intentional error path, select New York and tap **Show forecast**. The
+backend rejects that city on purpose, which gives you an error trace to inspect and correlate with
+the iOS-side request.
 
-1. Select Berlin, London, or Paris and tap **Show forecast** for a successful distributed trace.
-2. Select New York for the intentional backend error.
-
-In the Telemetry tab:
-
-1. Create a custom span, log, and metric.
-2. Run the slow distributed trace.
-3. Use **Crash the app**, then relaunch the app so EDOT iOS can export the stored crash report.
+To demonstrate iOS crash reporting, tap the crash button in the toolbar. The app will close
+intentionally. Launch it again so EDOT iOS can export the stored crash report.
 
 ## Inspect the data
 
-Open [Kibana](http://localhost:5601) and sign in as `elastic`. The password is printed by
-start-local and stored as `ES_LOCAL_PASSWORD` in `elastic-start-local/.env`.
+After launching the app and navigating through it, open [Kibana](http://localhost:5601) and log in
+with username `elastic` and the password printed at the end of the start-local setup. You can also
+find the password in `elastic-start-local/.env` (the `ES_LOCAL_PASSWORD` variable).
 
 Useful service names:
 
 - `weather-demo-ios`
 - `weather-demo-backend`
 
-Search for span names such as `Fetch city forecast`, `Manual checkout simulation`, or the
-`demo.action` attribute. Metrics from the app include `demo.forecast.requests` and
-`demo.manual.actions`.
+Search for span names such as `Fetch city forecast`.
 
 The [Elastic APM documentation](https://www.elastic.co/docs/solutions/observability/apm) explains
 the Applications UI in depth. If telemetry does not arrive, see
@@ -157,5 +197,4 @@ service.name=weather-demo-ios,deployment.environment=local
 
 ## License
 
-Apache License 2.0. See `LICENSE` and `NOTICE.txt`. To make changes to the demo itself, see
-[CONTRIBUTING.md](CONTRIBUTING.md).
+Apache License 2.0. See [`LICENSE`](LICENSE).

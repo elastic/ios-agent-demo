@@ -46,9 +46,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
       switch ProcessInfo.processInfo.environment["WEATHER_DEMO_E2E_MODE"] {
       case "telemetry":
         Task {
-          await DemoTelemetry.runManualScenario()
-          DemoTelemetry.emitManualLog()
-          DemoTelemetry.emitManualMetric()
           _ = try? await WeatherClient().forecast(for: ForecastRequest(city: .berlin))
         }
       case "crash":
@@ -68,23 +65,7 @@ struct WeatherDemoApp: App {
 
   var body: some Scene {
     WindowGroup {
-      RootView()
-    }
-  }
-}
-
-private struct RootView: View {
-  var body: some View {
-    TabView {
       WeatherHomeView()
-        .tabItem {
-          Label("Weather", systemImage: "cloud.sun")
-        }
-
-      TelemetryLabView()
-        .tabItem {
-          Label("Telemetry", systemImage: "waveform.path.ecg")
-        }
     }
   }
 }

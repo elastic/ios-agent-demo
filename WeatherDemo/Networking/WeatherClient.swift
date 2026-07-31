@@ -24,53 +24,43 @@ struct WeatherClient {
 
   func forecast(for request: ForecastRequest) async throws -> ForecastResponse {
     let spanAttributes: [String: AttributeValue] = [
-      "city": .string(request.city.rawValue),
-      "demo.delay_ms": .int(request.delayMilliseconds),
+      "city": .string(request.city.rawValue)
     ]
 
-    do {
-      let forecast = try await DemoTelemetry.withSpan(
-        name: "Fetch city forecast",
-        attributes: spanAttributes
-      ) { _ in
-        guard
-          var components = URLComponents(
-            url: baseURL.appendingPathComponent("forecast"),
-            resolvingAgainstBaseURL: false
-          )
-        else {
-          throw WeatherClientError.invalidURL
-        }
-
-        components.queryItems = [
-          URLQueryItem(name: "city", value: request.city.rawValue),
-          URLQueryItem(name: "delayMs", value: String(request.delayMilliseconds)),
-        ]
-
-        guard let url = components.url else {
-          throw WeatherClientError.invalidURL
-        }
-
-        let (data, response) = try await session.data(from: url)
-        guard let httpResponse = response as? HTTPURLResponse else {
-          throw WeatherClientError.invalidResponse
-        }
-        guard (200..<300).contains(httpResponse.statusCode) else {
-          let message = String(data: data, encoding: .utf8) ?? "No response body"
-          throw WeatherClientError.backend(
-            statusCode: httpResponse.statusCode,
-            message: message
-          )
-        }
-
-        return try JSONDecoder().decode(ForecastResponse.self, from: data)
+    return try await DemoTelemetry.withSpan(
+      name: "Fetch city forecast",
+      attributes: spanAttributes
+    ) { _ in
+      guard
+        var components = URLComponents(
+          url: baseURL.appendingPathComponent("forecast"),
+          resolvingAgainstBaseURL: false
+        )
+      else {
+        throw WeatherClientError.invalidURL
       }
 
-      DemoTelemetry.recordForecastResult(city: request.city, succeeded: true)
-      return forecast
-    } catch {
-      DemoTelemetry.recordForecastResult(city: request.city, succeeded: false)
-      throw error
+      components.queryItems = [
+        URLQueryItem(name: "city", value: request.city.rawValue)
+      ]
+
+      guard let url = components.url else {
+        throw WeatherClientError.invalidURL
+      }
+
+      let (data, response) = try await session.data(from: url)
+      guard let httpResponse = response as? HTTPURLResponse else {
+        throw WeatherClientError.invalidResponse
+      }
+      guard (200..<300).contains(httpResponse.statusCode) else {
+        let message = String(data: data, encoding: .utf8) ?? "No response body"
+        throw WeatherClientError.backend(
+          statusCode: httpResponse.statusCode,
+          message: message
+        )
+      }
+
+      return try JSONDecoder().decode(ForecastResponse.self, from: data)
     }
   }
 }

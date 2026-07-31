@@ -43,12 +43,8 @@ struct ForecastView: View {
     VStack(spacing: 16) {
       ProgressView()
         .controlSize(.large)
-      Text(
-        request.delayMilliseconds > 0
-          ? "Running a deliberately slow request…"
-          : "Fetching forecast for \(request.city.rawValue)…"
-      )
-      .foregroundStyle(.secondary)
+      Text("Fetching forecast for \(request.city.rawValue)…")
+        .foregroundStyle(.secondary)
     }
   }
 

@@ -72,60 +72,6 @@ enum DemoTelemetry {
     }
   }
 
-  static func recordForecastResult(city: City, succeeded: Bool) {
-    var requestCounter = OpenTelemetry.instance.meterProvider
-      .get(name: DemoConfiguration.instrumentationScope)
-      .counterBuilder(name: "demo.forecast.requests")
-      .build()
-    requestCounter.add(
-      value: 1,
-      attributes: [
-        "city": .string(city.rawValue),
-        "outcome": .string(succeeded ? "success" : "failure"),
-      ]
-    )
-  }
-
-  static func emitManualLog() {
-    emitLog(
-      "Manual telemetry log",
-      severity: .warn,
-      attributes: [
-        "demo.action": .string("manual-log"),
-        "demo.source": .string("telemetry-lab"),
-      ]
-    )
-  }
-
-  static func emitManualMetric() {
-    var actionCounter = OpenTelemetry.instance.meterProvider
-      .get(name: DemoConfiguration.instrumentationScope)
-      .counterBuilder(name: "demo.manual.actions")
-      .build()
-    actionCounter.add(
-      value: 1,
-      attributes: ["demo.action": .string("manual-metric")]
-    )
-  }
-
-  static func runManualScenario() async {
-    _ = try? await withSpan(
-      name: "Manual checkout simulation",
-      attributes: [
-        "demo.action": .string("manual-span"),
-        "cart.items": .int(3),
-      ]
-    ) { span in
-      try await Task.sleep(nanoseconds: 750_000_000)
-      emitLog(
-        "Checkout simulation completed",
-        severity: .info,
-        attributes: ["cart.items": .int(3)],
-        spanContext: span.context
-      )
-    }
-  }
-
   static func emitLog(
     _ message: String,
     severity: Severity,

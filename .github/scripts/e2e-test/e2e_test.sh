@@ -438,9 +438,6 @@ xcodebuild -quiet \
 app_path="$DERIVED_DATA_DIR/Build/Products/Release-iphonesimulator/WeatherDemo.app"
 xcrun simctl install "$simulator_udid" "$app_path"
 
-echo "Archiving dSYM for symbolication..."
-ditto -c -k --keepParent "${app_path}.dSYM" "$BUILD_DIR/WeatherDemo.app.dSYM.zip"
-
 echo "Launching telemetry scenario..."
 launch_app telemetry app-telemetry >/dev/null
 

@@ -12,7 +12,7 @@ The test:
 3. Builds the iOS application in the **Release** configuration — optimized, stripped, and with a
    separate dSYM, like a shipped app — then installs and launches it in a fresh Simulator. The
    test-only scenario hook is compiled in through the `E2E_HOOKS` Swift compilation condition.
-4. Runs a test-only app scenario that creates manual telemetry and requests a Berlin forecast.
+4. Runs a test-only app scenario that requests a Berlin forecast.
 5. Verifies an iOS startup span and log in Elasticsearch.
 6. Verifies that the app's forecast span and a backend span share the same trace ID.
 7. Intentionally crashes the app, relaunches it, and verifies the persisted crash event. The
@@ -45,5 +45,3 @@ Results and diagnostics are stored under `build/e2e/`, including:
 - Separate crash and relaunch logs for every crash retry attempt.
 - The Elasticsearch documents used by each assertion.
 - Simulator system logs captured on failure.
-- `WeatherDemo.app.dSYM.zip`, the debug symbols of the exact Release binary under test, for
-  symbolicating the captured crash report.

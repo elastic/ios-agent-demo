@@ -29,11 +29,6 @@ final class WeatherModelTests: XCTestCase {
     XCTAssertEqual(response.currentWeather.temperature, 21.3, accuracy: 0.001)
   }
 
-  func testForecastRequestDefaultsToNoDelay() {
-    XCTAssertEqual(ForecastRequest(city: .berlin).delayMilliseconds, 0)
-    XCTAssertEqual(ForecastRequest(city: .berlin, delayMilliseconds: 2500).delayMilliseconds, 2500)
-  }
-
   func testCityIdentifiersMatchBackendQueryValues() {
     XCTAssertEqual(City.allCases.map(\.id), ["Berlin", "London", "Paris", "New York"])
   }
