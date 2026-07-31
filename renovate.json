@@ -2,37 +2,5 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>elastic/renovate-config"
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Swift Package Manager references inside the Xcode project (Renovate's swift manager only reads Package.swift)",
-      "managerFilePatterns": [
-        "/project\\.pbxproj$/"
-      ],
-      "matchStrings": [
-        "repositoryURL = \"https://github\\.com/(?<depName>[^\"]+?)(?:\\.git)?\";\\s*requirement = \\{\\s*kind = exactVersion;\\s*version = (?<currentValue>[0-9][^;]*);",
-        "repositoryURL = \"https://github\\.com/(?<depName>[^\"]+?)(?:\\.git)?\";\\s*requirement = \\{\\s*kind = upToNextMajorVersion;\\s*minimumVersion = (?<currentValue>[0-9][^;]*);"
-      ],
-      "datasourceTemplate": "github-tags",
-      "versioningTemplate": "semver-coerced"
-    }
-  ],
-  "packageRules": [
-    {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "prBodyNotes": [
-        "The `renovate-lockfile` workflow refreshes `Package.resolved` on this branch automatically. If it could not run, refresh and commit the lockfile manually; `./checks.sh` verifies that it is current."
-      ]
-    },
-    {
-      "matchPackageNames": [
-        "elastic/apm-agent-ios"
-      ],
-      "ignoreUnstable": false,
-      "groupName": "elastic-agent"
-    }
   ]
 }

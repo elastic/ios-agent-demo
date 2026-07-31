@@ -57,16 +57,10 @@ still runs so the required `ci` check reports success.
 
 ## Dependencies
 
-Renovate manages the Swift package pins in `project.pbxproj` (via a custom regex manager — the
-native Renovate Swift manager only reads `Package.swift`) and the SHA-pinned GitHub Actions.
-
-Renovate cannot refresh the SwiftPM lockfile itself, so the `renovate-lockfile` workflow does it:
-on every `renovate/*` pull request that touches `project.pbxproj`, it resolves dependencies and
-pushes the updated `Package.resolved` back to the Renovate branch. It authenticates with the
-`RENOVATE_LOCKFILE_TOKEN` repository secret (a fine-grained personal access token with
-`contents: read/write` on this repository). Without the secret it falls back to the default
-workflow token, whose pushes do not trigger the `ci` workflow — the PR would then need a manual
-re-run or an empty commit to go green.
+Dependabot (`swift` ecosystem, see `.github/dependabot.yml`) manages the Swift package pins:
+since March 2026 it reads the dependency rules directly from `project.pbxproj` and updates
+`Package.resolved` in the same pull request, with no `Package.swift` required. Renovate (the
+shared Elastic preset) continues to manage the SHA-pinned GitHub Actions.
 
 When changing a pin manually, refresh and commit the lockfile yourself:
 
