@@ -422,18 +422,24 @@ xcrun simctl boot "$simulator_udid"
 xcrun simctl bootstatus "$simulator_udid" -b
 
 echo "Building and installing iOS app..."
+# Release keeps the app faithful to a shipped build (optimized, stripped, dSYM). The E2E_HOOKS
+# compilation condition compiles in the env-var scenario hook that Release would otherwise drop.
 xcodebuild -quiet \
   -project "$REPO_ROOT/WeatherDemo.xcodeproj" \
   -scheme WeatherDemo \
-  -configuration Debug \
+  -configuration Release \
   -sdk iphonesimulator \
   -destination "platform=iOS Simulator,id=$simulator_udid" \
   -derivedDataPath "$DERIVED_DATA_DIR" \
   CODE_SIGNING_ALLOWED=NO \
+  SWIFT_ACTIVE_COMPILATION_CONDITIONS='$(inherited) E2E_HOOKS' \
   build
 
-app_path="$DERIVED_DATA_DIR/Build/Products/Debug-iphonesimulator/WeatherDemo.app"
+app_path="$DERIVED_DATA_DIR/Build/Products/Release-iphonesimulator/WeatherDemo.app"
 xcrun simctl install "$simulator_udid" "$app_path"
+
+echo "Archiving dSYM for symbolication..."
+ditto -c -k --keepParent "${app_path}.dSYM" "$BUILD_DIR/WeatherDemo.app.dSYM.zip"
 
 echo "Launching telemetry scenario..."
 launch_app telemetry app-telemetry >/dev/null
@@ -469,29 +475,45 @@ echo "$startup_log" | jq . > "$BUILD_DIR/app-startup-log.json"
 echo "$forecast_span" | jq . > "$BUILD_DIR/app-forecast-span.json"
 echo "$backend_span" | jq . > "$BUILD_DIR/backend-span.json"
 
-echo "Triggering intentional iOS crash..."
-xcrun simctl terminate "$simulator_udid" "$APP_BUNDLE_ID" >/dev/null 2>&1 || true
-crash_pid=$(launch_app crash app-crash)
+# EDOT iOS occasionally drops the crash event at relaunch: the persisted report is processed and
+# purged, but the emitted record never leaves the SDK's batch worker (observed in both Debug and
+# Release builds). Each retry therefore needs a fresh crash, not just another relaunch.
+crash_event=""
+crash_attempts=3
+for attempt in $(seq 1 "$crash_attempts"); do
+  echo "Triggering intentional iOS crash (attempt $attempt/$crash_attempts)..."
+  xcrun simctl terminate "$simulator_udid" "$APP_BUNDLE_ID" >/dev/null 2>&1 || true
+  crash_pid=$(launch_app crash app-crash)
 
-crash_detected=false
-for _ in $(seq 1 20); do
-  if ! kill -0 "$crash_pid" >/dev/null 2>&1; then
-    crash_detected=true
+  crash_detected=false
+  for _ in $(seq 1 20); do
+    if ! kill -0 "$crash_pid" >/dev/null 2>&1; then
+      crash_detected=true
+      break
+    fi
+    sleep 1
+  done
+  if [ "$crash_detected" != true ]; then
+    echo "The app did not exit after the intentional crash" >&2
+    exit 1
+  fi
+
+  echo "Relaunching app to export persisted crash report..."
+  launch_app export app-relaunch >/dev/null
+  if crash_event=$(es_wait_for_item \
+    "logs-*" \
+    "$(crash_query)" \
+    "iOS crash event" \
+    120); then
     break
   fi
-  sleep 1
+  crash_event=""
 done
-if [ "$crash_detected" != true ]; then
-  echo "The app did not exit after the intentional crash" >&2
+
+if [ -z "$crash_event" ]; then
+  echo "No iOS crash event arrived after $crash_attempts crash attempts" >&2
   exit 1
 fi
-
-echo "Relaunching app to export persisted crash report..."
-launch_app export app-relaunch >/dev/null
-crash_event=$(es_wait_for_item \
-  "logs-*" \
-  "$(crash_query)" \
-  "iOS crash event")
 
 exception_type=$(
   echo "$crash_event" |

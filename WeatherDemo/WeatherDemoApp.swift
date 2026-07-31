@@ -35,31 +35,31 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     )
     DemoTelemetry.recordAppLaunch()
 
-#if DEBUG
-    runEndToEndScenarioIfRequested()
-#endif
+    #if DEBUG || E2E_HOOKS
+      runEndToEndScenarioIfRequested()
+    #endif
     return true
   }
 
-#if DEBUG
-  private func runEndToEndScenarioIfRequested() {
-    switch ProcessInfo.processInfo.environment["WEATHER_DEMO_E2E_MODE"] {
-    case "telemetry":
-      Task {
-        await DemoTelemetry.runManualScenario()
-        DemoTelemetry.emitManualLog()
-        DemoTelemetry.emitManualMetric()
-        _ = try? await WeatherClient().forecast(for: ForecastRequest(city: .berlin))
+  #if DEBUG || E2E_HOOKS
+    private func runEndToEndScenarioIfRequested() {
+      switch ProcessInfo.processInfo.environment["WEATHER_DEMO_E2E_MODE"] {
+      case "telemetry":
+        Task {
+          await DemoTelemetry.runManualScenario()
+          DemoTelemetry.emitManualLog()
+          DemoTelemetry.emitManualMetric()
+          _ = try? await WeatherClient().forecast(for: ForecastRequest(city: .berlin))
+        }
+      case "crash":
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+          DemoTelemetry.crash()
+        }
+      default:
+        break
       }
-    case "crash":
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-        DemoTelemetry.crash()
-      }
-    default:
-      break
     }
-  }
-#endif
+  #endif
 }
 
 @main
@@ -86,10 +86,5 @@ private struct RootView: View {
           Label("Telemetry", systemImage: "waveform.path.ecg")
         }
     }
-    .tint(.elasticBlue)
   }
-}
-
-extension Color {
-  static let elasticBlue = Color(red: 0.0, green: 0.47, blue: 0.55)
 }
