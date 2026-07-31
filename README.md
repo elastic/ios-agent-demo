@@ -1,17 +1,34 @@
 # EDOT iOS demo
 
 This repository demonstrates the
-[Elastic Distribution of OpenTelemetry iOS](https://github.com/elastic/apm-agent-ios) in an
-end-to-end weather application.
+[Elastic Distribution of OpenTelemetry iOS](https://github.com/elastic/apm-agent-ios) (EDOT iOS) in
+an end-to-end weather application. See the
+[EDOT iOS documentation](https://www.elastic.co/docs/reference/opentelemetry/edot-sdks/ios) for the
+full agent reference.
 
 Choose a city, request its current weather through a local instrumented backend, and inspect the
 complete distributed trace in Elastic. The demo also includes focused examples of manual spans,
 logs, metrics, a slow trace, an intentional backend error, and an intentional iOS crash.
 
+## Table of contents
+
+- [What you can observe](#what-you-can-observe)
+- [Components](#components)
+- [Prerequisites](#prerequisites)
+- [Run the demo](#run-the-demo)
+  - [1. Start the Elastic Stack](#1-start-the-elastic-stack)
+  - [2. Start the instrumented backend](#2-start-the-instrumented-backend)
+  - [3. Run the iOS application](#3-run-the-ios-application)
+- [Inspect the data](#inspect-the-data)
+- [Simulator and physical-device networking](#simulator-and-physical-device-networking)
+- [Configuration](#configuration)
+- [License](#license)
+
 ## What you can observe
 
 - Distributed traces from a SwiftUI action through `URLSession`, the Java backend, and Open-Meteo.
-- Automatic iOS lifecycle, view controller, network, CPU, and memory telemetry.
+- Automatic iOS lifecycle, view controller, network, CPU, and memory telemetry
+  ([supported technologies](https://www.elastic.co/docs/reference/opentelemetry/edot-sdks/ios/supported-technologies)).
 - A custom parent span, correlated log records, span attributes, and application counters.
 - A backend error when New York is selected.
 - A deliberately slow request from the Telemetry Lab.
@@ -19,21 +36,14 @@ logs, metrics, a slow trace, an intentional backend error, and an intentional iO
 
 ## Components
 
-```mermaid
-flowchart LR
-  App[SwiftUI iOS app] -->|HTTP + W3C trace context| Backend[Spring Boot backend]
-  Backend --> OpenMeteo[Open-Meteo API]
-  App -->|OTLP/HTTP :4318| Agent[Elastic Agent]
-  Backend -->|OTLP/HTTP| Agent
-  Agent --> Elasticsearch
-  Elasticsearch --> Kibana
-```
+![components](assets/components.png)
 
 - `WeatherDemo/` contains the SwiftUI application. It uses EDOT iOS and the OpenTelemetry API.
 - The independently released
   [shared demo backend](https://github.com/elastic/shared-otel-sdk-demo) is a Spring Boot service
   instrumented by the EDOT Java runtime attach library.
-- Elastic `start-local` provides Elasticsearch, Kibana, and an Elastic Agent OTLP endpoint.
+- Elastic `start-local` provides Elasticsearch, Kibana, and an
+  [Elastic Agent OTLP endpoint](https://www.elastic.co/docs/reference/fleet/elastic-agent-as-otel-collector).
 
 ## Prerequisites
 
@@ -108,6 +118,10 @@ Search for span names such as `Fetch city forecast`, `Manual checkout simulation
 `demo.action` attribute. Metrics from the app include `demo.forecast.requests` and
 `demo.manual.actions`.
 
+The [Elastic APM documentation](https://www.elastic.co/docs/solutions/observability/apm) explains
+the Applications UI in depth. If telemetry does not arrive, see
+[troubleshooting the EDOT iOS agent](https://www.elastic.co/docs/troubleshoot/ingest/opentelemetry/edot-sdks/ios).
+
 ## Simulator and physical-device networking
 
 The iOS Simulator can reach services on the Mac through `localhost`, so the checked-in configuration
@@ -141,28 +155,7 @@ ElasticApmAgent.start(with: configuration)
 service.name=weather-demo-ios,deployment.environment=local
 ```
 
-## Validate changes
-
-Run a code-signing-free Simulator build:
-
-```sh
-./checks.sh
-```
-
-## Continuous integration
-
-The GitHub Actions workflow builds the iOS app and runs an end-to-end test on an iOS Simulator. The
-test starts native Elasticsearch and EDOT Collector processes, downloads and runs the released
-backend JAR, launches the app, exercises its telemetry scenario, and queries Elasticsearch to
-verify:
-
-- An iOS startup span and log.
-- A distributed trace shared by the iOS app and backend.
-- A persisted iOS crash report exported after relaunch.
-
-See [`.github/scripts/e2e-test/README.md`](.github/scripts/e2e-test/README.md) for local execution
-instructions and failure artifacts.
-
 ## License
 
-Apache License 2.0. See `LICENSE` and `NOTICE.txt`.
+Apache License 2.0. See `LICENSE` and `NOTICE.txt`. To make changes to the demo itself, see
+[CONTRIBUTING.md](CONTRIBUTING.md).
