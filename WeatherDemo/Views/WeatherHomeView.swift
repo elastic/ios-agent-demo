@@ -35,25 +35,6 @@ struct WeatherHomeView: View {
         } footer: {
           Text("New York is rejected on purpose to demonstrate a correlated backend error.")
         }
-
-        Section("What this demonstrates") {
-          ScenarioRow(
-            icon: "point.3.connected.trianglepath.dotted",
-            title: "Distributed tracing",
-            detail: "The URLSession request continues through the instrumented backend."
-          )
-          ScenarioRow(
-            icon: "text.alignleft",
-            title: "Custom telemetry",
-            detail:
-              "The app adds a parent span, correlated logs, and span attributes."
-          )
-          ScenarioRow(
-            icon: "cpu",
-            title: "Automatic signals",
-            detail: "Lifecycle, CPU, memory, navigation, network, and crash telemetry are enabled."
-          )
-        }
       }
       .navigationTitle("Elastic Weather")
       .navigationDestination(for: ForecastRequest.self) { request in
@@ -75,27 +56,5 @@ struct WeatherHomeView: View {
         Text("This is intentional. Reopen the app afterward to export the crash report.")
       }
     }
-  }
-}
-
-struct ScenarioRow: View {
-  let icon: String
-  let title: String
-  let detail: String
-
-  var body: some View {
-    Label {
-      VStack(alignment: .leading, spacing: 3) {
-        Text(title)
-          .font(.headline)
-        Text(detail)
-          .font(.subheadline)
-          .foregroundStyle(.secondary)
-      }
-    } icon: {
-      Image(systemName: icon)
-        .foregroundStyle(Color.accentColor)
-    }
-    .padding(.vertical, 3)
   }
 }

@@ -11,6 +11,5 @@ enum DemoConfiguration {
   static let collectorURL = URL(string: "http://localhost:4318")!
   static let backendURL = URL(string: "http://localhost:8080/v1")!
 
-  static let serviceName = "weather-demo-ios"
   static let instrumentationScope = "co.elastic.weather-demo"
 }
