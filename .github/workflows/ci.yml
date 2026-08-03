@@ -96,7 +96,6 @@ jobs:
           path: |
             build/e2e/*.json
             build/e2e/*.log
-            build/e2e/*.zip
 
   ci:
     if: always()
