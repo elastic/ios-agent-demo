@@ -8,3 +8,7 @@ updates:
       elastic-agent:
         patterns:
           - "*apm-agent-ios*"
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily

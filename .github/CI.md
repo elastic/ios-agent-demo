@@ -56,10 +56,13 @@ Requirements: Xcode 16 or newer (for `swift format`) and `jq`.
 
 ## Dependencies
 
-Dependabot (`swift` ecosystem, see [dependabot.yml](dependabot.yml)) manages the Swift package
-pins: since March 2026 it reads the dependency rules directly from `project.pbxproj` and updates
-`Package.resolved` in the same pull request, with no `Package.swift` required. Renovate (the
-shared Elastic preset) continues to manage the SHA-pinned GitHub Actions.
+Dependabot (see [dependabot.yml](dependabot.yml)) manages the Swift package pins and the
+SHA-pinned GitHub Actions. For Swift, since March 2026 it reads the dependency rules directly
+from `project.pbxproj` and updates `Package.resolved` in the same pull request, with no
+`Package.swift` required.
+
+The Elasticsearch/EDOT collector stack version and the backend version used by the end-to-end
+test are pinned in the `env` block of [ci.yml](workflows/ci.yml) and are updated manually.
 
 When changing a pin manually, refresh and commit the lockfile yourself:
 

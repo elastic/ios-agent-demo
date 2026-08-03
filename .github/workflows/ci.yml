@@ -2,6 +2,7 @@ name: ci
 
 env:
   BACKEND_VERSION: 0.0.2
+  ELASTIC_VERSION: 9.4.2
 
 on:
   pull_request:
@@ -79,7 +80,7 @@ jobs:
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: .ci-cache/elastic
-          key: elastic-e2e-9.4.2-${{ runner.os }}-${{ runner.arch }}
+          key: elastic-e2e-${{ env.ELASTIC_VERSION }}-${{ runner.os }}-${{ runner.arch }}
       - name: Cache backend release
         uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
