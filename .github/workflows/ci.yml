@@ -55,9 +55,19 @@ jobs:
             echo "code=true" >> "$GITHUB_OUTPUT"
           fi
 
-  checks:
+  resolve:
     needs: changes
     if: needs.changes.outputs.code == 'true'
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Verify package resolution matches committed lockfile
+        run: .github/scripts/check-package-resolution.sh
+
+  checks:
+    needs: [changes, resolve]
+    if: needs.changes.outputs.code == 'true' && needs.resolve.result == 'success'
     runs-on: macos-15
     timeout-minutes: 30
     steps:
@@ -66,8 +76,8 @@ jobs:
         run: ./checks.sh
 
   e2e:
-    needs: changes
-    if: needs.changes.outputs.code == 'true'
+    needs: [changes, resolve]
+    if: needs.changes.outputs.code == 'true' && needs.resolve.result == 'success'
     runs-on: macos-15
     timeout-minutes: 45
     steps:
@@ -103,12 +113,14 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - changes
+      - resolve
       - checks
       - e2e
     steps:
       - name: Verify required jobs
         env:
           CODE_CHANGED: ${{ needs.changes.outputs.code }}
+          RESOLVE_RESULT: ${{ needs.resolve.result }}
           CHECKS_RESULT: ${{ needs.checks.result }}
           E2E_RESULT: ${{ needs.e2e.result }}
         run: |
@@ -118,10 +130,12 @@ jobs:
           fi
 
           if [ "$CODE_CHANGED" != "true" ] || \
+             [ "$RESOLVE_RESULT" != "success" ] || \
              [ "$CHECKS_RESULT" != "success" ] || \
              [ "$E2E_RESULT" != "success" ]; then
             echo "Required jobs did not succeed:" >&2
             echo "  changes: $CODE_CHANGED" >&2
+            echo "  resolve: $RESOLVE_RESULT" >&2
             echo "  checks:  $CHECKS_RESULT" >&2
             echo "  e2e:     $E2E_RESULT" >&2
             exit 1
