@@ -3,7 +3,9 @@ set -eu
 
 BASEDIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 SIMULATOR_ARCH=$(uname -m)
-PACKAGE_RESOLVED="$BASEDIR/WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+
+echo "Checking package resolution"
+"$BASEDIR/.github/scripts/check-package-resolution.sh"
 
 echo "Linting Swift sources"
 swift format lint --strict --recursive "$BASEDIR/WeatherDemo" "$BASEDIR/WeatherDemoTests"
@@ -28,15 +30,6 @@ xcodebuild \
   -derivedDataPath "$BASEDIR/.derived-data" \
   CODE_SIGNING_ALLOWED=NO \
   test
-
-if ! git -C "$BASEDIR" diff --quiet -- "$PACKAGE_RESOLVED"; then
-  echo "Package.resolved changed while resolving dependencies." >&2
-  echo "Resolve packages locally, stage the updated lockfile, and run checks again:" >&2
-  echo "  xcodebuild -resolvePackageDependencies -project WeatherDemo.xcodeproj -scheme WeatherDemo" >&2
-  echo "  git add WeatherDemo.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved" >&2
-  git -C "$BASEDIR" --no-pager diff -- "$PACKAGE_RESOLVED" >&2
-  exit 1
-fi
 
 echo "Building the app (Release)"
 xcodebuild \
