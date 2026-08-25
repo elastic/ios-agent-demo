@@ -15,9 +15,8 @@ The test:
 4. Runs a test-only app scenario that requests a Berlin forecast.
 5. Verifies an iOS startup span and log in Elasticsearch.
 6. Verifies that the app's forecast span and a backend span share the same trace ID.
-7. Intentionally crashes the app, relaunches it, and verifies the persisted crash event. The
-   crash scenario retries with a fresh crash up to three times, because the agent occasionally
-   drops the crash event at relaunch even though the persisted report was processed.
+7. Intentionally crashes the app once, relaunches it, and verifies that the persisted crash event
+   arrives.
 
 Every query includes a unique `test.run_id` resource attribute, so telemetry from another run
 cannot satisfy the assertions.
@@ -42,6 +41,6 @@ The first run downloads the pinned Elasticsearch and EDOT Collector archives to 
 Results and diagnostics are stored under `build/e2e/`, including:
 
 - Elasticsearch, Collector, backend, and Simulator logs.
-- Separate crash and relaunch logs for every crash retry attempt.
+- Separate crash and relaunch logs.
 - The Elasticsearch documents used by each assertion.
 - Simulator system logs captured on failure.
