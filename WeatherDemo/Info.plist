@@ -28,7 +28,7 @@
 		<true/>
 	</dict>
 	<key>OTEL_RESOURCE_ATTRIBUTES</key>
-	<string>service.name=weather-demo-ios,deployment.environment=local</string>
+	<string>service.name=weather-demo-ios,deployment.environment.name=local</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
