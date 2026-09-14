@@ -189,9 +189,9 @@ crash_query() {
         filter: ($filters + [{
           bool: {
             should: [
-              {term: {"event.name": "crash"}},
-              {term: {event_name: "crash"}},
-              {term: {"attributes.otel.event.name": "crash"}}
+              {term: {"event.name": "app.crash"}},
+              {term: {event_name: "app.crash"}},
+              {term: {"attributes.otel.event.name": "app.crash"}}
             ],
             minimum_should_match: 1
           }
