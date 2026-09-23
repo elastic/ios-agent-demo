@@ -64,7 +64,7 @@ as part of [Step 1](#1-start-the-elastic-stack) via start-local.
 
 ## Prerequisites
 
-- macOS with Xcode and an iOS 16 or newer Simulator.
+- macOS with Xcode 26 or newer and an iOS 16 or newer Simulator.
 - Docker Desktop or another Docker environment available to the macOS host.
 
 ## Run the demo

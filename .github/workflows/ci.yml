@@ -58,7 +58,7 @@ jobs:
   resolve:
     needs: changes
     if: needs.changes.outputs.code == 'true'
-    runs-on: macos-15
+    runs-on: macos-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -68,7 +68,7 @@ jobs:
   checks:
     needs: [changes, resolve]
     if: needs.changes.outputs.code == 'true' && needs.resolve.result == 'success'
-    runs-on: macos-15
+    runs-on: macos-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -78,7 +78,7 @@ jobs:
   e2e:
     needs: [changes, resolve]
     if: needs.changes.outputs.code == 'true' && needs.resolve.result == 'success'
-    runs-on: macos-15
+    runs-on: macos-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7

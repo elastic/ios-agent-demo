@@ -49,7 +49,7 @@ The script runs, in order:
 4. A code-signing-free Release build, which also proves that code outside `#if DEBUG` still
    compiles under the optimizer.
 
-Requirements: Xcode 16 or newer (for `swift format`) and `jq`.
+Requirements: Xcode 26 or newer (for `swift format`) and `jq`.
 
 ## Build configurations
 
