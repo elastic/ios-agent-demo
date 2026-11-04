@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-distributed-tracing.git",
       "state" : {
-        "revision" : "297b5b9c82a5631e3199ce3ec0993a3cfb0fbb84",
-        "version" : "1.7.2"
+        "revision" : "789663680a3a4767e698be46bc154a3bc5c64fef",
+        "version" : "1.7.3"
       }
     },
     {
